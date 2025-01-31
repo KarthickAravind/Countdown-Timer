@@ -3,7 +3,7 @@ import './App.css';
 
 function App() {
   const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(0);
+  const [secondsInput, setSecondsInput] = useState(0); // New state for seconds input
   const [isActive, setIsActive] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
 
@@ -24,11 +24,12 @@ function App() {
   }, [isActive, timeLeft]);
 
   const handleStart = () => {
-    if (minutes > 0) {
-      setTimeLeft(minutes * 60);
+    const totalSeconds = minutes * 60 + secondsInput; // Calculate total seconds
+    if (totalSeconds >= 60) { // Ensure minimum of 60 seconds
+      setTimeLeft(totalSeconds);
       setIsActive(true);
     } else {
-      alert('Please enter a valid number of minutes.');
+      alert('Please enter a total time of at least 60 seconds.');
     }
   };
 
@@ -36,7 +37,7 @@ function App() {
     setIsActive(false);
     setTimeLeft(0);
     setMinutes(0);
-    setSeconds(0);
+    setSecondsInput(0);
   };
 
   const formatTime = (time) => {
@@ -56,6 +57,17 @@ function App() {
             type="number"
             value={minutes}
             onChange={(e) => setMinutes(parseInt(e.target.value, 10))}
+            disabled={isActive}
+          />
+        </label>
+      </div>
+      <div>
+        <label>
+          Set Timer (seconds):
+          <input
+            type="number"
+            value={secondsInput}
+            onChange={(e) => setSecondsInput(parseInt(e.target.value, 10))}
             disabled={isActive}
           />
         </label>
