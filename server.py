@@ -1,8 +1,8 @@
 from flask import Flask, jsonify, request
-from flask_cors import CORS
+from flask_cors import CORS  # Import CORS
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for cross-origin requests
+CORS(app)  # Enable CORS for all routes
 
 @app.route('/set-timer', methods=['POST'])
 def set_timer():
