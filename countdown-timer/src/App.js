@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
-  const [minutes, setMinutes] = useState(0);
-  const [secondsInput, setSecondsInput] = useState(0); // New state for seconds input
+  const [timeInput, setTimeInput] = useState('0:00'); // Input in MM:SS format
   const [isActive, setIsActive] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
 
@@ -24,27 +23,36 @@ function App() {
   }, [isActive, timeLeft]);
 
   const handleStart = () => {
-    const totalSeconds = minutes * 60 + secondsInput; // Calculate total seconds
-    if (totalSeconds >= 60) { // Ensure minimum of 60 seconds
-      setTimeLeft(totalSeconds);
-      setIsActive(true);
-    } else {
-      alert('Please enter a total time of at least 60 seconds.');
+    // Validate input format (MM:SS)
+    const timePattern = /^(\d{1,2}):([0-5]\d)$/; // Matches MM:SS format
+    if (!timePattern.test(timeInput)) {
+      alert('Please enter time in MM:SS format (e.g., 0:30 or 1:30).');
+      return;
     }
+
+    // Split input into minutes and seconds
+    const [minutes, seconds] = timeInput.split(':').map(Number);
+    const totalSeconds = minutes * 60 + seconds;
+
+    if (totalSeconds <= 0) {
+      alert('Please enter a valid time greater than 0 seconds.');
+      return;
+    }
+
+    setTimeLeft(totalSeconds);
+    setIsActive(true);
   };
 
   const handleReset = () => {
     setIsActive(false);
     setTimeLeft(0);
-    setMinutes(0);
-    setSecondsInput(0);
+    setTimeInput('0:00');
   };
 
   const formatTime = (time) => {
-    const hours = Math.floor(time / 3600);
-    const minutes = Math.floor((time % 3600) / 60);
+    const minutes = Math.floor(time / 60);
     const seconds = time % 60;
-    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   };
 
   return (
@@ -52,23 +60,13 @@ function App() {
       <h1>Countdown Timer</h1>
       <div>
         <label>
-          Set Timer (minutes):
+          Set Timer (MM:SS):
           <input
-            type="number"
-            value={minutes}
-            onChange={(e) => setMinutes(parseInt(e.target.value, 10))}
+            type="text"
+            value={timeInput}
+            onChange={(e) => setTimeInput(e.target.value)}
             disabled={isActive}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          Set Timer (seconds):
-          <input
-            type="number"
-            value={secondsInput}
-            onChange={(e) => setSecondsInput(parseInt(e.target.value, 10))}
-            disabled={isActive}
+            placeholder="MM:SS"
           />
         </label>
       </div>
