@@ -21,4 +21,4 @@ def set_timer():
     return jsonify({'message': 'Timer set successfully', 'seconds': minutes * 60}), 200
 
 if __name__ == '__main__':
-    app.run(debug=True)  
+    app.run(debug=True)
