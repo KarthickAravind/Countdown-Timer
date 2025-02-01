@@ -9,7 +9,7 @@ A simple Countdown Timer built with React.js. This application allows users to s
 5. Use the Countdown Timer<br>
 --- Enter the time in MM:SS format.<br>
 ---- Click "Start" to begin the countdown.<br>
------ Click "Reset" to stop the timer and clear the input.<br><br><br>.
+----- Click "Reset" to stop the timer and clear the input.<br><br>.
 
 
 ![Screenshot 2025-01-31 232650](https://github.com/user-attachments/assets/fedc8d5f-e4cd-492f-92d9-4656427630de)
